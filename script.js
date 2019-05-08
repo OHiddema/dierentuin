@@ -1,19 +1,18 @@
-class Animal{
-  constructor(birthDate, weight, gender) {
-    this.birthDate = birthDate;
+class Animal {
+  constructor(birthYear, weight, gender) {
+    this.birthYear = birthYear;
     this.weight = weight;
     this.gender = gender;
   }
   getAge() {
-    let diff_ms = Date.now() - this.birthDate.getTime();
-    let age_dt = new Date(diff_ms); 
-    return Math.abs(age_dt.getUTCFullYear() - 1970);
+    let d = new Date();
+    console.log(d.getFullYear() - this.birthYear);
   }
 }
 
 class Bird extends Animal {
-  constructor(birthDate, weight, gender, eggs) {
-    super(birthDate, weight, gender);
+  constructor(birthYear, weight, gender, eggs) {
+    super(birthYear, weight, gender);
     this.eggs = eggs;
   }
   fly() {
@@ -22,8 +21,8 @@ class Bird extends Animal {
 }
 
 class Insect extends Animal {
-  constructor(birthDate, weight, gender, bites) {
-    super(birthDate, weight, gender);
+  constructor(birthYear, weight, gender, bites) {
+    super(birthYear, weight, gender);
     this.bites = bites;
   }
   fly() {
@@ -31,17 +30,39 @@ class Insect extends Animal {
   }
 }
 
-let adelaar = new Bird(new Date(2018, 1, 1), 0.5, 'V', 10);
-adelaar.fly();
-console.log(adelaar.eggs);
-adelaar.getAge();
-console.log(adelaar.birthDate);
-console.log(adelaar.weight);
-console.log(adelaar.gender);
+// creates a rondom integer between start and end (inclusive)
+function randomInRange(start, end) {
+  return Math.floor(Math.random() * (end - start + 1) + start);
+}
 
-let bee = new Insect(new Date(2018, 1, 1), 0.5, 'M', true);
-bee.fly();
-console.log(bee.bites);
-console.log(bee.birthDate);
-console.log(bee.weight);
-console.log(bee.gender);
+// create 10 objects (random class, random properties)
+let myAnimals = [];
+let numberOfAnimals = 10;
+for (let i = 0; i < numberOfAnimals; i++) {
+
+  let d = new Date();
+  let rndYear = d.getFullYear() - randomInRange(0, 10);
+  let rndWeight = 1000 * Math.random();
+  let rndGender = '';
+  if (Math.random() > .5) {
+    rndGender = 'M';
+  } else {
+    rndGender = 'F';
+  }
+  let rndEggs = randomInRange(0, 100);
+  let rndBites = true;
+  if (Math.random() > .5) {
+    rndBites = false
+  }
+
+  if (Math.random() < .5) {
+    myAnimals[i] = new Bird(rndYear, rndWeight, rndGender, rndEggs);
+  } else {
+    myAnimals[i] = new Insect(rndYear, rndWeight, rndGender, rndBites);
+  }
+
+}
+
+for (let i = 0; i < numberOfAnimals; i++) {
+  console.log(myAnimals[i]);
+}
