@@ -4,7 +4,7 @@ class Animal {
     this.weight = weight;
     this.gender = gender;
   }
- 
+
   getAge() { //age in milliseconds !!!
     let d = new Date();
     console.log(d.getTime() - this.birthDate.getTime());
@@ -45,24 +45,24 @@ class Zoo {
       return Math.floor(Math.random() * (end - start + 1) + start);
     }
 
+    let d = new Date();
+    let t = d.getTime();
+    let rndDays, rndDate, rndWeight, rndGender, rndEggs, rndBites;
+
     for (let i = 0; i < n; i++) {
 
       // create random variables
-      let d = new Date();
-      let n = d.getTime();
-      let rndDays = randomInRange(0, 100);
-      let rndDate = new Date(n - rndDays * 24 * 3600 * 1000);
-      let rndWeight = 1000 * Math.random();
-      let rndGender = '';
-      Math.random()>.5 ? rndGender = 'M' : rndGender = 'V';
-      let rndEggs = randomInRange(0, 100);
-      let rndBites = '';
-      Math.random()>.5 ? rndBites = true : rndBites = false;
+      rndDays = randomInRange(0, 100);
+      rndDate = new Date(t - rndDays * 24 * 3600 * 1000);
+      rndWeight = 1000 * Math.random();
+      Math.random() > .5 ? rndGender = 'M' : rndGender = 'V';
+      rndEggs = randomInRange(0, 100);
+      Math.random() > .5 ? rndBites = true : rndBites = false;
 
       // put random variables in random animal type
-      Math.random()>.5 ? 
-      this.animalObj[i] = new Bird(rndDate, rndWeight, rndGender, rndEggs) :
-      this.animalObj[i] = new Insect(rndDate, rndWeight, rndGender, rndBites);
+      Math.random() > .5 ?
+        this.animalObj[i] = new Bird(rndDate, rndWeight, rndGender, rndEggs) :
+        this.animalObj[i] = new Insect(rndDate, rndWeight, rndGender, rndBites);
     }
   }
 
