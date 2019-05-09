@@ -11,3 +11,7 @@ Step 2:
 - Randomly create n objects:
   50% change if it is a Bird-object / 50% chance if it is an Insect-object
   For each instance all their properties must also be created randomly.
+
+Step 3:
+- Use polymorhism; create a function in Animal that is implemented differently
+  in Bird and Insect. Try to feed ALL animals with by calling a function.

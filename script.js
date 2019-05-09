@@ -10,6 +10,9 @@ class Animal {
     let d = new Date();
     console.log(d.getTime() - this.birthDate.getTime());
   }
+  // feed(){
+
+  // }
 }
 
 class Bird extends Animal {
@@ -17,8 +20,8 @@ class Bird extends Animal {
     super(birthDate, weight, gender);
     this.eggs = eggs;
   }
-  fly() {
-    console.log('The bird flies!');
+  feed() {
+    console.log('Feed the bird');
   }
 }
 
@@ -27,8 +30,8 @@ class Insect extends Animal {
     super(birthDate, weight, gender);
     this.bites = bites;
   }
-  fly() {
-    console.log('The insect flies!')
+  feed() {
+    console.log('Feed the insect');
   }
 }
 
@@ -72,9 +75,7 @@ function createRandomObjects(n, object) {
 let myAnimals = [];
 createRandomObjects(10, myAnimals);
 
-// print the array to the console
 for (let i = 0; i < myAnimals.length; i++) {
-  console.log(myAnimals[i]);
+  myAnimals[i].feed();
 }
 
-myAnimals[0].getAge();
