@@ -10,9 +10,6 @@ class Animal {
     let d = new Date();
     console.log(d.getTime() - this.birthDate.getTime());
   }
-  // feed(){
-
-  // }
 }
 
 class Bird extends Animal {
@@ -72,10 +69,33 @@ function createRandomObjects(n, object) {
   }
 }
 
-let myAnimals = [];
-createRandomObjects(10, myAnimals);
+// let myAnimals = [];
+// createRandomObjects(10, myAnimals);
 
-for (let i = 0; i < myAnimals.length; i++) {
-  myAnimals[i].feed();
+// for (let i = 0; i < myAnimals.length; i++) {
+//   myAnimals[i].feed();
+// }
+
+class Zoo {
+  constructor(location, capacity) {
+    this.location = location;
+    this.capacity = capacity;
+    this.animalObj = [];
+  }
+
+  createAnimals(n) {
+    for (let i=0; i<n; i++) {
+      this.animalObj[i] = new Bird(new Date(), 1, 'M', 0);
+    }
+  }
+
+  printAnimals() {
+    for (let i=0; i< this.animalObj.length; i++) {
+      console.log(this.animalObj[i]);
+    }
+  }
 }
 
+myFirstZoo = new Zoo('Groningen', 1000);
+myFirstZoo.createAnimals(10);
+myFirstZoo.printAnimals();

@@ -15,3 +15,7 @@ Step 2:
 Step 3:
 - Use polymorhism; create a function in Animal that is implemented differently
   in Bird and Insect. Try to feed ALL animals with by calling a function.
+
+Step 4:
+- Create a Zoo object and put the createRandomObjects function in an instance
+  of the Zoo object.
