@@ -4,9 +4,8 @@ class Animal {
     this.weight = weight;
     this.gender = gender;
   }
-
-  //age in milliseconds !!!
-  getAge() {
+ 
+  getAge() { //age in milliseconds !!!
     let d = new Date();
     console.log(d.getTime() - this.birthDate.getTime());
   }
@@ -32,50 +31,6 @@ class Insect extends Animal {
   }
 }
 
-
-// create a rondom object (Bird or Insect) with random properties
-function createRandomObjects(n, object) {
-
-  // creates a rondom integer between start and end (inclusive)
-  function randomInRange(start, end) {
-    return Math.floor(Math.random() * (end - start + 1) + start);
-  }
-
-  for (let i = 0; i < n; i++) {
-
-    let d = new Date();
-    let n = d.getTime();
-    let rndDays = randomInRange(0, 100);
-    let rndDate = new Date(n - rndDays * 24 * 3600 * 1000);
-
-    let rndWeight = 1000 * Math.random();
-    let rndGender = '';
-    if (Math.random() > .5) {
-      rndGender = 'M';
-    } else {
-      rndGender = 'F';
-    }
-    let rndEggs = randomInRange(0, 100);
-    let rndBites = true;
-    if (Math.random() > .5) {
-      rndBites = false
-    }
-
-    if (Math.random() < .5) {
-      object[i] = new Bird(rndDate, rndWeight, rndGender, rndEggs);
-    } else {
-      object[i] = new Insect(rndDate, rndWeight, rndGender, rndBites);
-    }
-  }
-}
-
-// let myAnimals = [];
-// createRandomObjects(10, myAnimals);
-
-// for (let i = 0; i < myAnimals.length; i++) {
-//   myAnimals[i].feed();
-// }
-
 class Zoo {
   constructor(location, capacity) {
     this.location = location;
@@ -84,13 +39,35 @@ class Zoo {
   }
 
   createAnimals(n) {
-    for (let i=0; i<n; i++) {
-      this.animalObj[i] = new Bird(new Date(), 1, 'M', 0);
+
+    // creates a rondom integer between start and end (inclusive)
+    function randomInRange(start, end) {
+      return Math.floor(Math.random() * (end - start + 1) + start);
+    }
+
+    for (let i = 0; i < n; i++) {
+
+      // create random variables
+      let d = new Date();
+      let n = d.getTime();
+      let rndDays = randomInRange(0, 100);
+      let rndDate = new Date(n - rndDays * 24 * 3600 * 1000);
+      let rndWeight = 1000 * Math.random();
+      let rndGender = '';
+      Math.random()>.5 ? rndGender = 'M' : rndGender = 'V';
+      let rndEggs = randomInRange(0, 100);
+      let rndBites = '';
+      Math.random()>.5 ? rndBites = true : rndBites = false;
+
+      // put random variables in random animal type
+      Math.random()>.5 ? 
+      this.animalObj[i] = new Bird(rndDate, rndWeight, rndGender, rndEggs) :
+      this.animalObj[i] = new Insect(rndDate, rndWeight, rndGender, rndBites);
     }
   }
 
   printAnimals() {
-    for (let i=0; i< this.animalObj.length; i++) {
+    for (let i = 0; i < this.animalObj.length; i++) {
       console.log(this.animalObj[i]);
     }
   }
