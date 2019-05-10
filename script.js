@@ -1,33 +1,39 @@
 class Animal {
-  constructor(birthDate, weight, gender) {
+  constructor(birthDate, weight, sex, fedDate) {
     this.birthDate = birthDate;  //birthdate is a date object
     this.weight = weight;
-    this.gender = gender;
+    this.sex = sex;
+    this.fedDate = fedDate;
   }
 
   getAge() { //age in milliseconds !!!
     let d = new Date();
     console.log(d.getTime() - this.birthDate.getTime());
   }
+
+  feed() {
+    this.fedDate = new Date();
+    this.getEnergyLevel = 1;
+  }
 }
 
 class Bird extends Animal {
-  constructor(birthDate, weight, gender, eggs) {
-    super(birthDate, weight, gender);
+  constructor(birthDate, weight, sex, fedDate, eggs) {
+    super(birthDate, weight, sex, fedDate);
     this.eggs = eggs;
   }
-  feed() {
-    console.log('Feed the bird');
+  getEnergyLevel() {
+    return 1-(new Date().getTime - this.fedDate.getTime)/1000000;
   }
 }
 
 class Insect extends Animal {
-  constructor(birthDate, weight, gender, bites) {
-    super(birthDate, weight, gender);
+  constructor(birthDate, weight, sex, fedDate, bites) {
+    super(birthDate, weight, sex, fedDate);
     this.bites = bites;
   }
-  feed() {
-    console.log('Feed the insect');
+  getEnergyLevel() {
+    return 1-(new Date() - this.fedDate)/2000000;
   }
 }
 
@@ -47,7 +53,7 @@ class Zoo {
 
     let d = new Date();
     let t = d.getTime();
-    let rndDays, rndDate, rndWeight, rndGender, rndEggs, rndBites;
+    let rndDays, rndDate, rndWeight, rndSex, rndEggs, rndBites;
 
     for (let i = 0; i < n; i++) {
 
@@ -55,14 +61,14 @@ class Zoo {
       rndDays = randomInRange(0, 100);
       rndDate = new Date(t - rndDays * 24 * 3600 * 1000);
       rndWeight = 1000 * Math.random();
-      Math.random() > .5 ? rndGender = 'M' : rndGender = 'V';
+      Math.random() > .5 ? rndSex = 'M' : rndSex = 'V';
       rndEggs = randomInRange(0, 100);
       Math.random() > .5 ? rndBites = true : rndBites = false;
 
       // put random variables in random animal type
       Math.random() > .5 ?
-        this.animalObj[i] = new Bird(rndDate, rndWeight, rndGender, rndEggs) :
-        this.animalObj[i] = new Insect(rndDate, rndWeight, rndGender, rndBites);
+        this.animalObj[i] = new Bird(rndDate, rndWeight, rndSex, d, true, rndEggs) :
+        this.animalObj[i] = new Insect(rndDate, rndWeight, rndSex, d, true, rndBites);
     }
   }
 
@@ -71,8 +77,24 @@ class Zoo {
       console.log(this.animalObj[i]);
     }
   }
+
+  getAnimals() {
+    return this.animalObj;
+}
+
 }
 
 myFirstZoo = new Zoo('Groningen', 1000);
 myFirstZoo.createAnimals(10);
-myFirstZoo.printAnimals();
+// myFirstZoo.printAnimals();
+
+
+let nBirds = 0;
+let nInsects = 0;
+let allAnimals = myFirstZoo.getAnimals();
+for (let i=0; i<allAnimals.length; i++) {
+  (allAnimals[i] instanceof Bird) ? nBirds++ : nInsects++;
+}
+
+document.getElementById("nBirds").innerHTML = "Birds: " + nBirds;
+document.getElementById("nInsects").innerHTML = "Insects " + nInsects;
