@@ -22,8 +22,8 @@ class Bird extends Animal {
     this.eggs = eggs;
   }
   getEnergyLevel() {
-    //dies 60 sec after being fed
-    return 1 - (new Date().getTime() - this.fedDate.getTime())/(1000 * 60);
+    //dies after not being fed for 60 sec
+    return 1 - (new Date().getTime() - this.fedDate.getTime()) / (1000 * 60);
   }
 }
 
@@ -33,8 +33,8 @@ class Insect extends Animal {
     this.bites = bites;
   }
   getEnergyLevel() {
-    //dies 10 sec after being fed
-    return 1 - (new Date().getTime() - this.fedDate.getTime())/(1000 * 10) ;
+    //dies after not being fed for 10 sec
+    return 1 - (new Date().getTime() - this.fedDate.getTime()) / (1000 * 10);
   }
 }
 
@@ -73,32 +73,22 @@ class Zoo {
     }
   }
 
-  // printAnimals() {
-  //   for (let i = 0; i < this.animalObj.length; i++) {
-  //     console.log(this.animalObj[i]);
-  //   }
-  // }
-
   getAnimals() {
     return this.animalObj;
   }
-
 }
-
-myFirstZoo = new Zoo('Groningen', 1000);
-myFirstZoo.createAnimals(1000);
-// myFirstZoo.printAnimals();
-
-
 
 // Triggered bij 'Start animation' button on page
 function start() {
+  myFirstZoo = new Zoo('Groningen', 1000);
+  myFirstZoo.createAnimals(1000);
   setInterval(runZoo, 1000);
 }
 
+runZooIterations = 0;
 function runZoo() {
   // Let the Zoo come to life!
-
+  runZooIterations++;
   feed();
   die();
   newlife();
@@ -116,7 +106,10 @@ function runZoo() {
         savedIndex = i
       }
     }
-    allAnimals[savedIndex].feed();
+    
+    if (savedIndex > -1) { // make sure an animal an with energy level<1 has been found!
+      allAnimals[savedIndex].feed();
+    }
   }
 
   function die() {
@@ -135,13 +128,14 @@ function runZoo() {
   }
 
   function refreshPage() {
-    let nBirds = 0;
-    let nInsects = 0;
+    // count the number of birds and insects
+    let nBirds = 0, nInsects = 0;
     let allAnimals = myFirstZoo.getAnimals();
     for (let i = 0; i < allAnimals.length; i++) {
       (allAnimals[i] instanceof Bird) ? nBirds++ : nInsects++;
     }
-    document.getElementById("nBirds").innerHTML = "Birds: " + nBirds;
-    document.getElementById("nInsects").innerHTML = "Insects " + nInsects;
+    document.getElementById('nBirds').innerHTML = 'Birds: ' + nBirds;
+    document.getElementById('nInsects').innerHTML = 'Insects: ' + nInsects;
+    document.getElementById('nIterations').innerHTML = 'Iterations: ' + runZooIterations;
   }
 }
