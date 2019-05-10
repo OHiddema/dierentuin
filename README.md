@@ -19,3 +19,11 @@ Step 3:
 Step 4:
 - Create a Zoo object and put the createRandomObjects function in an instance
   of the Zoo object.
+
+Step 5:
+- Display number of birds and insects on the HTML page.
+
+Step 6:
+- Feed animals
+- Let animals die ()
+- Create animals

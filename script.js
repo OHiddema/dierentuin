@@ -13,7 +13,6 @@ class Animal {
 
   feed() {
     this.fedDate = new Date();
-    this.getEnergyLevel = 1;
   }
 }
 
@@ -23,7 +22,8 @@ class Bird extends Animal {
     this.eggs = eggs;
   }
   getEnergyLevel() {
-    return 1-(new Date().getTime - this.fedDate.getTime)/1000000;
+    //dies 60 sec after being fed
+    return 1 - (new Date().getTime() - this.fedDate.getTime())/(1000 * 60);
   }
 }
 
@@ -33,7 +33,8 @@ class Insect extends Animal {
     this.bites = bites;
   }
   getEnergyLevel() {
-    return 1-(new Date() - this.fedDate)/2000000;
+    //dies 10 sec after being fed
+    return 1 - (new Date().getTime() - this.fedDate.getTime())/(1000 * 10) ;
   }
 }
 
@@ -67,34 +68,80 @@ class Zoo {
 
       // put random variables in random animal type
       Math.random() > .5 ?
-        this.animalObj[i] = new Bird(rndDate, rndWeight, rndSex, d, true, rndEggs) :
-        this.animalObj[i] = new Insect(rndDate, rndWeight, rndSex, d, true, rndBites);
+        this.animalObj.push(new Bird(rndDate, rndWeight, rndSex, d, true, rndEggs)) :
+        this.animalObj.push(new Insect(rndDate, rndWeight, rndSex, d, true, rndBites));
     }
   }
 
-  printAnimals() {
-    for (let i = 0; i < this.animalObj.length; i++) {
-      console.log(this.animalObj[i]);
-    }
-  }
+  // printAnimals() {
+  //   for (let i = 0; i < this.animalObj.length; i++) {
+  //     console.log(this.animalObj[i]);
+  //   }
+  // }
 
   getAnimals() {
     return this.animalObj;
-}
+  }
 
 }
 
 myFirstZoo = new Zoo('Groningen', 1000);
-myFirstZoo.createAnimals(10);
+myFirstZoo.createAnimals(1000);
 // myFirstZoo.printAnimals();
 
 
-let nBirds = 0;
-let nInsects = 0;
-let allAnimals = myFirstZoo.getAnimals();
-for (let i=0; i<allAnimals.length; i++) {
-  (allAnimals[i] instanceof Bird) ? nBirds++ : nInsects++;
+
+// Triggered bij 'Start animation' button on page
+function start() {
+  setInterval(runZoo, 1000);
 }
 
-document.getElementById("nBirds").innerHTML = "Birds: " + nBirds;
-document.getElementById("nInsects").innerHTML = "Insects " + nInsects;
+function runZoo() {
+  // Let the Zoo come to life!
+
+  feed();
+  die();
+  newlife();
+  refreshPage();
+
+  function feed() {
+    let allAnimals = myFirstZoo.getAnimals();
+    // Get the animal with the lowest energy level
+    let lowestEnergyLevel = 1;
+    let savedIndex = -1;
+    for (let i = 0; i < allAnimals.length; i++) {
+      energyLevel = allAnimals[i].getEnergyLevel();
+      if (energyLevel < lowestEnergyLevel) {
+        lowestEnergyLevel = energyLevel;
+        savedIndex = i
+      }
+    }
+    allAnimals[savedIndex].feed();
+  }
+
+  function die() {
+    let allAnimals = myFirstZoo.getAnimals();
+    for (let i = 0; i < allAnimals.length; i++) {
+      energyLevel = allAnimals[i].getEnergyLevel();
+      if (energyLevel < 0) {
+        // die...
+        allAnimals.splice(i, 1);
+      }
+    }
+  }
+
+  function newlife() {
+    myFirstZoo.createAnimals(1);
+  }
+
+  function refreshPage() {
+    let nBirds = 0;
+    let nInsects = 0;
+    let allAnimals = myFirstZoo.getAnimals();
+    for (let i = 0; i < allAnimals.length; i++) {
+      (allAnimals[i] instanceof Bird) ? nBirds++ : nInsects++;
+    }
+    document.getElementById("nBirds").innerHTML = "Birds: " + nBirds;
+    document.getElementById("nInsects").innerHTML = "Insects " + nInsects;
+  }
+}
